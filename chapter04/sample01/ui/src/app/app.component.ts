@@ -1,21 +1,28 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports:[
+    CommonModule
+  ],
   selector: 'app-root',
   template: `<h1>Book List App</h1>
     <p>
       <button (click)='loadBooks()'>Load Books</button>
     </p>
-      <span><div *ngFor=\"let book of books\">
-        {{book.name}}
-      </div></span>
+      <span>
+        <div *ngFor="let book of books">
+          {{book.name}}
+        </div>
+      </span>
   `,
   styles: []
 })
 
 export class AppComponent {  
-  books: Book[];
+  books: Book[] = [];
 
   constructor(private http: HttpClient) {
   }

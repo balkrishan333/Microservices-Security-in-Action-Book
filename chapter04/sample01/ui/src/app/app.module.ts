@@ -1,23 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http'
+import { provideRouter, withHashLocation } from '@angular/router';
+import { routes } from './app.routes';
+import { CommonModule } from '@angular/common';
 
-import { AppComponent } from './app.component';
-
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      { path: '', component: AppComponent }])
-  ],
+export const appConfig: ApplicationConfig = {
   providers: [
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+    provideRouter(routes, withHashLocation()),
+    provideHttpClient()
+  ]
+};

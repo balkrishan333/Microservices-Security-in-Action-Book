@@ -2,7 +2,7 @@
 
 - This is orders microservice running on port 8082
 - This is also resource server
-- Required authroization server to be running on port 8080
+- Required authroization server to be running on port 8080 (chapter 2, sample 2)
   - Authorization server port can be changed in application.properties
 <!-- - This is integrated with API gateway also
 - Endpoints can be access either

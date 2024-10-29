@@ -1,6 +1,27 @@
-server.port: 9090
-zuul:
-  routes:
-    books:
-      path: /books/**
-      url: http://localhost:8080/books
+server:
+  port: 8081
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: path_route
+          uri: http://localhost:8080 #Adjust this port to point to target service port
+          predicates:
+            - Path=/books/**
+          filters:
+          - AddResponseHeader=author,balkrishan
+      globalcors:  
+        cors-configurations:  
+          '[/**]': # This applies CORS configuration to all routes  
+            allowedOrigins:  
+              - "http://localhost:4200" 
+            allowedMethods:   
+              - GET  
+              - POST   
+            allowedHeaders:   
+              - Content-Type  
+              - Authorization  
+            allowCredentials: true  
+            maxAge: 3600 # Maximum age (in seconds) of the cache duration for preflight responses   
+      

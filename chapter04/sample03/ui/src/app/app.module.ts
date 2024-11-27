@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
-import { OAuthModule, AuthConfig, JwksValidationHandler, ValidationHandler, OAuthStorage, OAuthModuleConfig } from 'angular-oauth2-oidc';
+import { provideHttpClient } from '@angular/common/http';
+import { OAuthModule, AuthConfig, JwksValidationHandler, ValidationHandler, OAuthStorage, OAuthModuleConfig, OAuthService } from 'angular-oauth2-oidc';
 import { RouterModule } from '@angular/router';
 
 const config: AuthConfig = {
@@ -28,23 +28,22 @@ const config: AuthConfig = {
 
 };
 
-config.logoutUrl = `${config.issuer}v2/logout?client_id=${config.clientId}&returnTo=${encodeURIComponent(config.redirectUri)}`;
+config.logoutUrl = `${config.issuer}v2/logout?client_id=${config.clientId}&returnTo=${encodeURIComponent(config.redirectUri|| '')}`;
 
 const authModuleConfig: OAuthModuleConfig = {
   // Add the Bearer header for these URLs (APIs).
   resourceServer: {
-    allowedUrls: ['http://localhost:8080'],
+    allowedUrls: ['http://localhost:8081'],
     sendAccessToken: true,
   },
 };
 
 @NgModule({
   declarations: [
-    AppComponent
+
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     OAuthModule.forRoot(authModuleConfig),
     RouterModule.forRoot([
       { path: '', component: AppComponent }])
@@ -54,7 +53,11 @@ const authModuleConfig: OAuthModuleConfig = {
     { provide: ValidationHandler, useClass: JwksValidationHandler },
     { provide: OAuthStorage, useValue: localStorage },
     { provide: AuthConfig, useValue: config },
+    OAuthService,
+    provideHttpClient()
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+
+  ]
 })
 export class AppModule { }

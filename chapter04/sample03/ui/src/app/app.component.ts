@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { OAuthService, OAuthErrorEvent } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthErrorEvent, OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
+  standalone: true,  // Mark this component as standalone
   template: `<h1>Book List App</h1>
     <p>
       <button *ngIf="!isLoggedIn()" (click)='login()'>Log In</button>
@@ -12,26 +14,21 @@ import { HttpClient } from '@angular/common/http';
       <button (click)='refresh()'>Refresh</button>
     </p>
     
-    <span *ngIf="isLoggedIn()"><div *ngFor=\"let book of books\">
+    <span *ngIf="isLoggedIn()"><div *ngFor="let book of books">
       {{book.name}}
     </div></span>
   `,
-  styles: []
+  styles: [],
+  imports: [CommonModule, OAuthModule]
 })
 
 export class AppComponent {
   username = '';
   books: Book[];
 
-  get token() { 
-    this.oauthService.setStorage(sessionStorage);
-    var token = this.oauthService.getAccessToken();
-    console.log('Access Token = ' + token);
-    return token; 
-  }
-  get claims() { return this.oauthService.getIdentityClaims(); }
-
   constructor(private oauthService: OAuthService, private http: HttpClient) {
+
+    this.books = [];
     // For debugging:
     oauthService.events.subscribe(e => e instanceof OAuthErrorEvent ? console.error(e) : console.warn(e));
 
@@ -46,6 +43,7 @@ export class AppComponent {
         if (!oauthService.hasValidAccessToken()) {
           return oauthService.silentRefresh();
         }
+        return;
       })
 
       // Get username, if possible.
@@ -56,6 +54,17 @@ export class AppComponent {
       });
 
     oauthService.setupAutomaticSilentRefresh();
+  }
+
+  get token() { 
+    this.oauthService.setStorage(sessionStorage);
+    var token = this.oauthService.getAccessToken();
+    console.log('Access Token = ' + token);
+    return token; 
+  }
+
+  get claims() { 
+    return this.oauthService.getIdentityClaims(); 
   }
 
   login() { 

@@ -3,15 +3,16 @@ package com.manning.mss.ch04.sample03.authz.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+// import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+// import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+// import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+// import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
-@Configuration
-@EnableAuthorizationServer
-public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter
+// @Configuration
+// @EnableAuthorizationServer
+public class OAuth2AuthorizationServer //extends AuthorizationServerConfigurerAdapter
 {
+    /*
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -40,4 +41,5 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
                 .withClient("resourceclient")
                 .secret(passwordEncoder.encode("resourcesecret"));
     }
+                */
 }
